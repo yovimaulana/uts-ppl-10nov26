@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Belajar UTS PPL · IF5121</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EEF2F7;--card:#fff;--ink:#12263A;--mute:#5B6B7C;--line:#D3DCE6;--blue:#2750D8;--blueS:#E3EAFC;--ok:#17805F;--okS:#DDF3EB;--bad:#C93A47;--badS:#FADFE1;--warn:#9A6700;--warnS:#FFF1CC;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1722;--card:#16222F;--ink:#E6EDF5;--mute:#93A4B6;--line:#2A3A4B;--blue:#7C9BFF;--blueS:#1E2D54;--ok:#4CD0A1;--okS:#12352B;--bad:#FF7C86;--badS:#4A1E24;--warn:#F0C25A;--warnS:#3D3112;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0E1722;--card:#16222F;--ink:#E6EDF5;--mute:#93A4B6;--line:#2A3A4B;--blue:#7C9BFF;--blueS:#1E2D54;--ok:#4CD0A1;--okS:#12352B;--bad:#FF7C86;--badS:#4A1E24;--warn:#F0C25A;--warnS:#3D3112;color-scheme:dark}
+*{box-sizing:border-box}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);background:var(--card);border-bottom:1px solid var(--line);z-index:9}
+.bar{max-width:980px;margin:auto;padding:10px 16px 0}
+h1{font-size:18px;margin:0 0 6px;font-weight:700}
+nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+nav button{flex:none;background:none;border:0;border-bottom:3px solid transparent;color:var(--mute);font:500 14px inherit;font-family:inherit;padding:8px 12px;cursor:pointer}
+nav button.on{color:var(--blue);border-color:var(--blue);font-weight:600}
+main{max-width:980px;margin:auto;padding:20px 16px 60px}
+section{display:none}section.on{display:block}
+h2{font-size:22px;margin:0 0 4px}h3{font-size:17px;margin:0 0 6px}
+p{margin:0 0 10px}.mute{color:var(--mute);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+button,select{font-family:inherit}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:9px 16px;font:600 14px inherit;font-family:inherit;cursor:pointer}
+.btn.g{background:var(--blueS);color:var(--blue)}.btn.ok{background:var(--ok)}.btn.bad{background:var(--bad)}
+.btn:disabled{opacity:.4;cursor:default}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{display:inline-block;background:var(--blueS);color:var(--blue);border-radius:99px;padding:1px 10px;font-size:13px;font-weight:600}
+select{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:8px;font-size:14px;max-width:100%}
+.big{font-size:40px;font-weight:700;line-height:1.1;color:var(--blue)}
+.bar2{height:8px;background:var(--line);border-radius:9px;overflow:hidden}.bar2>i{display:block;height:100%;background:var(--ok)}
+details{border:1px solid var(--line);border-radius:10px;background:var(--card);margin-bottom:10px}
+summary{padding:12px 16px;cursor:pointer;font-weight:600;display:flex;gap:10px;align-items:center}
+details>div{padding:0 16px 14px}
+ul{margin:4px 0 10px;padding-left:20px}li{margin:3px 0}
+.trap{background:var(--warnS);color:var(--ink);border-left:4px solid var(--warn);padding:8px 12px;border-radius:6px;font-size:14px}
+.fc{perspective:1000px;margin:12px 0}
+.fc>div{min-height:220px;border-radius:12px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;justify-content:center;padding:24px;cursor:pointer;text-align:left;font-size:18px}
+.fc.back>div{background:var(--blueS)}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:11px 14px;margin:8px 0;font-size:15px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--blue)}
+.opt.ok{background:var(--okS);border-color:var(--ok)}.opt.no{background:var(--badS);border-color:var(--bad)}
+.fb{padding:10px 14px;border-radius:8px;margin:10px 0;font-size:15px}.fb.ok{background:var(--okS)}.fb.no{background:var(--badS)}
+.dr{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.dr .t{flex:1 1 300px}.dr .r{font-size:14px;flex:1 1 100%}
+.dr.ok select{border-color:var(--ok)}.dr.no select{border-color:var(--bad)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}th{background:var(--blueS)}
+.sc{overflow-x:auto}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:6px 0}.chk input{margin-top:6px;width:18px;height:18px}
+.hid{display:none}
+@media print{header,nav,.noprint{display:none}section{display:block!important}body::before{display:none}}
+@media(prefers-reduced-motion:no-preference){.opt,.btn{transition:background .15s,border-color .15s}}
+</style>
+</head>
+<body>
+<header><div class="bar"><h1>Belajar UTS PPL · IF5121 Perancangan Perangkat Lunak</h1>
+<nav id="nav"></nav></div></header>
+<main>
+<section id="home"></section>
+<section id="ringkasan"></section>
+<section id="kartu"></section>
+<section id="kuis"></section>
+<section id="latihan"></section>
+<section id="esai"></section>
+<section id="contekan"></section>
+</main>
+<script>
+const BAB=["","Penggerak desain & prinsip dasar","Skenario kualitas","Alternatif arsitektur","Notasi & ADR","Strategi desain & baseline","Rancangan rinci & kontrak","Kolaborasi komponen"];
+const $=s=>document.querySelector(s);
+let S={read:{},known:{},best:0,wrong:[],done:{}};
+try{S=Object.assign(S,JSON.parse(localStorage.getItem("ppl-uts")||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem("ppl-uts",JSON.stringify(S))}catch(e){}};
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const babOpts=(extra="")=>'<option value="0">Semua bab</option>'+[1,2,3,4,5,6,7].map(i=>`<option value="${i}">Bab ${i}: ${BAB[i]}</option>`).join("")+extra;
+
+/* ===== DATA ===== */
+const RING=[
+[1,"Pendahuluan & penggerak desain",["Tiga tingkat: <b>Kebutuhan</b> (apa yang diinginkan) → <b>Keputusan desain</b> (struktur & interaksi) → <b>Implementasi</b> (kode/realisasi).","Empat penggerak desain: <b>fungsi penting</b>, <b>atribut kualitas</b>, <b>kendala</b>, <b>konteks</b> (stakeholder & lingkungan).","Prinsip: abstraksi, modularitas, separation of concerns, information hiding/enkapsulasi, kohesi tinggi, coupling rendah."],"Satu fungsi yang validasi + ubah data + kirim pesan + atur tampilan = melanggar SoC dan kohesi rendah."],
+[2,"Kebutuhan & skenario kualitas",["Enam unsur: <b>Sumber, Stimulus, Lingkungan, Artefak, Respons, Ukuran Respons</b>.","Batasan wajib (tak bisa ditawar) ≠ asumsi (perlu divalidasi data) ≠ preferensi (masih bisa didiskusikan).","“Cepat dan aman” itu buruk: tanpa profil beban, tanpa angka. Perbaiki jadi skenario dengan target kuantitatif.","Trade-off: keamanan vs kinerja; ketersediaan vs biaya."],"Soal sering minta menunjuk mana “Artefak” dan mana “Ukuran Respons” dari sebuah narasi."],
+[3,"Alternatif arsitektur",["<b>Modular monolith</b>: satu deployment, modul terpisah logis. Transaksi lokal mudah; deploy ulang seluruh aplikasi bila ada perubahan.","<b>Services</b>: deploy terpisah via jaringan. Skala & update mandiri; latensi, kegagalan parsial, distributed transaction.","Layered: Presentasi → Aplikasi → Domain → Infrastruktur. Risiko: kebocoran dependensi.","Taktik & biayanya: cache → invalidasi rumit; replika → biaya naik; antarmuka stabil → modifiability.","Outbox + worker: reservasi sukses setelah tersimpan lokal, notifikasi diproses asinkron."],"Pilihan teknologi harus bisa ditelusuri ke penggerak desain, bukan tren."],
+[4,"Notasi arsitektur & ADR",["Tiga view: <b>Konteks</b> (aktor & sistem eksternal), <b>Komponen</b> (tanggung jawab & dependensi), <b>Deployment</b> (di infrastruktur apa berjalan).","Dependency: garis putus-putus panah terbuka dari client ke supplier. Realization: garis putus-putus segitiga kosong ke interface.","Provided interface (ditawarkan), required interface (dibutuhkan), assembly connector (lollipop & socket).","ADR: <b>Konteks, Keputusan, Alternatif ditolak, Konsekuensi</b>."],"Dependensi kode ≠ aliran data runtime."],
+[5,"Strategi desain & baseline",["Top-down = dekomposisi dari tujuan bisnis/skenario kualitas. Bottom-up = komposisi dari aset/teknologi yang ada. Gabungkan keduanya.","Iteratif = memperbaiki. Inkremental = menambah cakupan.","Pasangan masalah → bukti: pemahaman pengguna → uji tugas prototipe; konflik data → uji konkurensi spike; target kinerja → load test; kemudahan ubah → simulasi perubahan & review dampak.","Kontrak operasi: prasyarat, hasil sukses/gagal atomik dengan kode alasan jelas."],"Storyboard tidak cukup membuktikan target p95."],
+[6,"Rancangan rinci & kontrak",["Kohesi rendah: satu kelas campur aduk (LoanManager: setujui pinjaman + hitung gaji + PDF). Coupling tinggi: baca tabel modul lain, dependensi melingkar.","SOLID: SRP, OCP, LSP, ISP, DIP (lihat tab Contekan).","Kontrak operasi: <b>signature, prasyarat, pascasyarat, invariant</b>.","Cek “if available lalu update” tidak cukup untuk konkurensi: butuh transaksi, locking, atau constraint. Retry dengan operationId sama → kembalikan hasil lama."],"LSP: subclass tidak boleh memperkuat prasyarat atau melemahkan jaminan induk."],
+[7,"Kolaborasi komponen",["Sequence diagram: Controller (terima request, tanpa aturan bisnis), Service (orkestrasi), Entity (jaga aturan status sendiri), Repository (akses data).","Perubahan status + alokasi barang dalam satu transaksi; gagal sebelum commit → rollback penuh.","Notifikasi di luar transaksi utama; bila gagal setelah commit, state sah dipertahankan dan dikirim ulang asinkron.","requestId → idempotensi. Race condition: yang kalah ditolak dengan error konflik, invariant tetap aman."],"Dua petugas cek barang bersamaan sama-sama melihat “Tersedia”: if biasa tidak menolong."]
+];
+const FC=[
+[1,"Beda Kebutuhan, Keputusan Desain, Implementasi?","Kebutuhan = apa yang diinginkan. Keputusan desain = bagaimana struktur & interaksinya. Implementasi = bagaimana kode merealisasikannya."],
+[1,"Empat penggerak desain?","Fungsi penting, atribut kualitas, kendala, konteks."],
+[1,"Abstraksi?","Menyembunyikan detail rumit, hanya menampilkan kontrak penting (panggil pesanSlot tanpa tahu penyimpanannya)."],
+[1,"Separation of Concerns?","Memisahkan kode berdasarkan alasan perubahan berbeda: aturan bisnis, tampilan UI, pengiriman pesan."],
+[1,"Information hiding & enkapsulasi?","Menyembunyikan keputusan/struktur data internal yang rawan berubah di balik interface."],
+[1,"Kohesi vs coupling?","Kohesi = fokus tanggung jawab dalam satu modul (target tinggi). Coupling = kekuatan ketergantungan antar modul (target rendah)."],
+[2,"Enam unsur skenario kualitas?","Sumber stimulus, stimulus, lingkungan, artefak, respons, ukuran respons."],
+[2,"Batasan vs asumsi vs preferensi?","Batasan: mutlak (wajib SSO kampus). Asumsi: perkiraan yang perlu divalidasi (200 pengguna virtual). Preferensi: kecenderungan tim yang bisa didiskusikan (lebih familiar Java)."],
+[2,"Kenapa “cepat dan aman” buruk?","Tidak ada parameter ukur, profil beban, atau batas latensi. Ubah jadi skenario kualitas dengan target kuantitatif."],
+[2,"Contoh trade-off atribut kualitas?","Keamanan vs kinerja (enkripsi/audit sinkron menambah latensi); ketersediaan vs biaya (redundansi menaikkan biaya)."],
+[3,"Modular monolith: kelebihan & kekurangan?","+ Transaksi lokal mudah, cocok tim kecil & tenggat singkat. − Perubahan kecil = deploy ulang seluruh aplikasi."],
+[3,"Services: kelebihan & kekurangan?","+ Skala & update mandiri. − Latensi jaringan, kegagalan parsial, distributed transaction kompleks."],
+[3,"Urutan layered architecture?","Presentasi → Aplikasi → Domain → Infrastruktur."],
+[3,"Cache, replika, antarmuka stabil: konsekuensinya?","Cache → invalidasi rumit. Replika → biaya operasional naik. Antarmuka stabil → perubahan tidak merembet (modifiability)."],
+[3,"Outbox pattern & worker?","Reservasi sukses setelah tersimpan di DB lokal; notifikasi masuk antrean outbox dan diproses worker asinkron, jadi SMS/email mati tidak menggagalkan reservasi."],
+[4,"Tiga view arsitektur dan pertanyaannya?","Konteks: siapa aktor & sistem eksternal? Komponen: siapa bertanggung jawab & dependensinya? Deployment: berjalan di infrastruktur apa saat runtime?"],
+[4,"Dependency vs realization?","Dependency: garis putus-putus, panah terbuka, client → supplier. Realization: garis putus-putus, segitiga kosong, ke interface."],
+[4,"Provided vs required interface?","Provided = layanan yang ditawarkan. Required = layanan yang dibutuhkan agar bekerja. Assembly connector = lollipop & socket."],
+[4,"Empat bagian ADR?","Konteks, keputusan, alternatif yang ditolak (beserta alasan), konsekuensi (positif & negatif)."],
+[5,"Top-down vs bottom-up?","Top-down: dekomposisi dari tujuan bisnis/skenario kualitas ke komponen. Bottom-up: komposisi dari aset/teknologi yang sudah ada. Gabungkan dalam satu iterasi."],
+[5,"Iteratif vs inkremental?","Iteratif = memperbaiki berdasarkan evaluasi. Inkremental = menambah cakupan fitur bertahap."],
+[5,"Pasangan masalah → bukti validasi?","Pemahaman pengguna → uji tugas prototipe. Konflik data → uji konkurensi spike. Target kinerja → load test. Kemudahan ubah aturan → simulasi perubahan & review dampak."],
+[6,"Tanda kohesi buruk & coupling buruk?","Kohesi buruk: kelas campur tanggung jawab tak relevan. Coupling buruk: baca tabel modul lain, utak-atik representasi internal, dependensi melingkar."],
+[6,"SRP, OCP?","SRP: satu alasan untuk berubah. OCP: diperluas lewat interface stabil tanpa ubah kode lama (ApprovalPolicy)."],
+[6,"LSP, ISP, DIP?","LSP: subclass tak memperkuat prasyarat/melemahkan jaminan. ISP: pecah interface gemuk. DIP: domain & infrastruktur sama-sama bergantung pada abstraksi."],
+[6,"Empat elemen kontrak operasi?","Signature, prasyarat, pascasyarat, invariant."],
+[6,"Idempoten pada retry?","Request ulang dengan operationId/requestId sama mengembalikan hasil tersimpan, tanpa data baru atau efek samping ganda."],
+[7,"Peran Controller, Service, Entity, Repository?","Controller: terima request & kirim respons (tanpa aturan bisnis). Service: orkestrasi alur. Entity: data + validasi status sendiri. Repository: akses data persisten."],
+[7,"Batas transaksi & rollback?","Ubah status + alokasi barang dalam satu transaksi. Gagal sebelum commit → rollback penuh, tanpa perubahan parsial."],
+[7,"Notifikasi gagal setelah commit?","State bisnis tetap sah; notifikasi di luar transaksi utama, dijadwalkan ulang (retry) secara asinkron."],
+[7,"Race condition dua permintaan serentak?","if-check di aplikasi tidak cukup. Pakai locking pesimistik/optimistik, constraint DB, atau atomic update; yang kalah ditolak dengan error konflik."]
+];
+/* [bab, soal, benar, [salah x3], penjelasan] */
+const Q=[
+[1,"“Pasien dapat memilih jadwal dokter yang masih tersedia” termasuk tingkatan…","Kebutuhan",["Keputusan desain","Implementasi","Kendala"],"Menyatakan apa yang diinginkan, bukan bagaimana."],
+[1,"“Komponen Reservasi meminta validasi pada komponen Jadwal” termasuk…","Keputusan desain",["Kebutuhan","Implementasi","Atribut kualitas"],"Ini struktur & interaksi antar komponen."],
+[1,"“Menggunakan database constraint untuk mengunci slot transaksi” termasuk…","Implementasi",["Kebutuhan","Keputusan desain","Konteks"],"Realisasi teknis di level kode/database."],
+[1,"Mana yang BUKAN penggerak desain?","Popularitas teknologi di media sosial",["Fungsi penting","Atribut kualitas","Kendala"],"Pilihan harus ditelusuri ke penggerak desain, bukan tren."],
+[1,"Satu fungsi memvalidasi pengguna, mengubah slot, mengirim pesan, dan mengatur tampilan. Masalahnya?","Melanggar SoC dan kohesi rendah",["Coupling terlalu rendah","Melanggar LSP saja","Tidak ada masalah, justru efisien"],"Terlalu banyak tanggung jawab berbeda dalam satu fungsi."],
+[1,"Memanggil pesanSlot tanpa tahu cara data disimpan adalah contoh…","Abstraksi",["Kohesi rendah","Coupling tinggi","Idempotensi"],"Abstraksi hanya menampilkan kontrak, menyembunyikan detail."],
+[1,"Kondisi desain yang diharapkan:","Kohesi tinggi, coupling rendah",["Kohesi rendah, coupling tinggi","Kohesi tinggi, coupling tinggi","Kohesi rendah, coupling rendah"],"Fokus dalam modul, longgar antar modul."],
+[2,"Dalam skenario kualitas, “latensi p95 ≤ 2 detik” adalah…","Ukuran respons",["Stimulus","Artefak","Lingkungan"],"Batas angka keberhasilan yang terukur."],
+[2,"“API pemesanan” dalam sebuah skenario kualitas adalah…","Artefak",["Sumber stimulus","Respons","Lingkungan"],"Artefak = bagian sistem yang terkena dampak."],
+[2,"“Lonjakan trafik di awal semester” adalah unsur…","Lingkungan",["Stimulus","Artefak","Sumber"],"Lingkungan = kondisi saat kejadian."],
+[2,"“Sistem wajib memakai SSO kampus yang sudah ada” adalah…","Batasan wajib",["Asumsi","Preferensi","Stimulus"],"Mutlak dan tidak bisa ditawar."],
+[2,"“Lonjakan maksimum 200 pengguna virtual” adalah…","Asumsi",["Batasan wajib","Preferensi","Artefak"],"Perkiraan lapangan yang perlu divalidasi data."],
+[2,"“Tim lebih familiar memakai Java” adalah…","Preferensi",["Batasan wajib","Asumsi","Respons"],"Kecenderungan tim, masih bisa didiskusikan."],
+[2,"Mengapa “sistem harus cepat dan aman” keliru sebagai kebutuhan non-fungsional?","Tidak punya parameter ukur, profil beban, dan batas latensi",["Terlalu panjang","Tidak menyebut bahasa pemrograman","Terlalu detail"],"Perbaiki jadi skenario 6 unsur dengan target kuantitatif."],
+[2,"Menambah enkripsi kuat dan audit log sinkron untuk keamanan biasanya…","Menaikkan latensi (menurunkan kinerja)",["Menurunkan biaya","Meningkatkan modifiability otomatis","Tidak berdampak"],"Trade-off keamanan vs kinerja."],
+[3,"Kelebihan modular monolith dibanding services:","Transaksi data lokal, konsistensi mudah dijaga",["Tiap modul bisa diskalakan mandiri","Kebal kegagalan parsial","Deploy per modul"],"Poin lain adalah kelebihan services."],
+[3,"Risiko utama arsitektur berbasis layanan:","Latensi jaringan, kegagalan parsial, distributed transaction",["Kode harus satu bahasa","Tidak bisa diskalakan","Tidak bisa di-deploy mandiri"],"Panggilan jaringan menambah kompleksitas."],
+[3,"Urutan layered architecture dari atas:","Presentasi, Aplikasi, Domain, Infrastruktur",["Domain, Aplikasi, Presentasi, Infrastruktur","Infrastruktur, Domain, Aplikasi, Presentasi","Aplikasi, Presentasi, Infrastruktur, Domain"],"Domain menyimpan aturan bisnis inti."],
+[3,"Aturan bisnis tersebar di lapisan luar disebut…","Kebocoran dependensi (leaked dependency)",["Idempotensi","Atomisitas","Realization"],"Risiko khas layered architecture."],
+[3,"Konsekuensi memakai cache untuk kinerja:","Strategi invalidasi cache rumit agar data tidak usang",["Biaya replika naik","Transaksi terdistribusi","Tidak ada"],"Cache = kinerja naik, data bisa usang."],
+[3,"Mengapa notifikasi memakai outbox + worker?","Reservasi tetap sukses walau layanan SMS/email mati",["Agar notifikasi sinkron","Agar tidak butuh database","Agar latensi reservasi naik"],"Notifikasi diproses asinkron setelah reservasi tersimpan."],
+[4,"View yang menjawab “siapa aktor dan sistem eksternal yang terhubung?”","Model konteks",["View komponen","View deployment","Sequence diagram"],"Contoh: SSO kampus dan penyedia pengingat."],
+[4,"View deployment menjawab pertanyaan…","Artefak dijalankan di infrastruktur apa saat runtime",["Siapa aktornya","Apa dependensi antar kelas","Apa alasan keputusan"],"Pemetaan artefak ke sumber daya komputasi."],
+[4,"Notasi dependency pada diagram komponen:","Garis putus-putus, panah terbuka, dari client ke supplier",["Garis utuh, segitiga kosong, ke interface","Garis putus-putus, panah dari supplier ke client","Garis utuh, panah tertutup"],"Segitiga kosong adalah realization."],
+[4,"Required interface adalah…","Layanan yang dibutuhkan komponen agar bisa bekerja",["Layanan yang ditawarkan komponen","Konektor lollipop","Jenis ADR"],"Provided = ditawarkan; assembly connector menyambungkan keduanya."],
+[4,"Empat poin wajib ADR:","Konteks, keputusan, alternatif ditolak, konsekuensi",["Konteks, jadwal, biaya, risiko","Tujuan, fitur, kode, tes","Aktor, use case, kelas, tabel"],"Termasuk alasan menolak alternatif."],
+[5,"Strategi top-down berangkat dari…","Tujuan bisnis, skenario kualitas, batas sistem",["Pustaka & API yang sudah ada","Kode lama","Preferensi tim"],"Dipecah menjadi subsistem, komponen, kontrak."],
+[5,"Rilis pertama peminjaman online, rilis berikutnya menambah fitur offline adalah…","Inkremental",["Iteratif","Bottom-up","Spike"],"Menambah cakupan fitur."],
+[5,"Mengubah mekanisme transaksi karena versi awal memicu konflik konkurensi adalah…","Iteratif",["Inkremental","Top-down","Deployment"],"Memperbaiki berdasarkan hasil evaluasi."],
+[5,"Bukti yang tepat untuk menguji target p95 ≤ 3 detik:","Uji beban dengan beban kerja jelas",["Melihat storyboard","Wawancara pengguna","Review diagram konteks"],"Target kinerja harus diukur."],
+[5,"Bukti yang tepat untuk menguji bentrokan data (konkurensi):","Uji konkurensi pada kode eksperimen (spike)",["Uji tugas prototipe","Load test saja","Review dokumen"],"Spike membuktikan mekanisme kunci bekerja."],
+[5,"Bukti yang tepat untuk menguji apakah petugas memahami alur:","Uji tugas pada prototipe antarmuka",["Uji konkurensi","Simulasi perubahan kode","Load test"],"Pemahaman pengguna butuh prototipe."],
+[6,"LoanManager menyetujui pinjaman, menghitung gaji pegawai, dan membuat PDF. Masalahnya?","Kohesi rendah (melanggar SRP)",["Coupling rendah","Melanggar ISP saja","Melanggar LSP saja"],"Tanggung jawab bercampur tak relevan."],
+[6,"Abstraksi ApprovalPolicy untuk perbedaan aturan antar-fakultas menerapkan…","OCP",["SRP","LSP","ISP"],"Diperluas lewat interface tanpa mengubah kode lama."],
+[6,"Domain layer meng-import langsung kelas database MySQL. Prinsip yang dilanggar:","DIP",["OCP","ISP","SRP"],"Keduanya seharusnya bergantung pada abstraksi."],
+[6,"Subclass memperkuat prasyarat yang dijanjikan induk. Pelanggaran:","LSP",["DIP","OCP","SRP"],"Pengganti harus bisa dipakai tanpa kejutan."],
+[6,"“Jumlah pinjaman aktif per alat tidak boleh lebih dari satu” adalah…","Invariant",["Prasyarat","Signature","Pascasyarat"],"Aturan baku yang selalu benar pada state stabil."],
+[6,"Request diulang dengan operationId yang sama. Seharusnya…","Mengembalikan hasil tersimpan, tanpa efek ganda",["Membuat baris versi baru","Memproses ulang","Selalu error"],"Idempotensi."],
+[6,"Pengecekan “if available → update” cukup untuk menjaga invariant?","Tidak, dua request bersamaan tetap lolos; butuh transaksi/lock/constraint",["Ya, selalu cukup","Ya, jika kodenya rapi","Tidak, cukup diganti notifikasi"],"Race condition tak bisa dicegah if biasa."],
+[7,"Tugas ApprovalController:","Menerima request dan menyampaikan respons, tanpa aturan bisnis",["Mengoordinasi alur bisnis","Menjaga validasi status","Mengakses DBMS"],"Controller hanya gerbang protokol."],
+[7,"Komponen yang menjaga aturan perubahan statusnya sendiri:","Domain entity (Loan)",["Controller","Repository","Outbox worker"],"Entity memegang data sekaligus validasi."],
+[7,"Penyimpanan gagal sebelum commit. Yang harus terjadi:","Rollback menyeluruh, data kembali ke awal",["Simpan sebagian","Kirim notifikasi dulu","Abaikan error"],"Atomisitas."],
+[7,"Notifikasi gagal setelah commit sukses. Yang benar:","Pertahankan state sah, kirim ulang asinkron",["Rollback reservasi","Batalkan semua","Tunggu sinkron sampai berhasil"],"Notifikasi di luar transaksi utama."],
+[7,"Dua petugas menyetujui barang yang sama serentak. Yang kalah…","Ditolak dengan error konflik, invariant aman",["Tetap disetujui","Menimpa data","Diabaikan tanpa respons"],"Locking/constraint memastikan hanya satu menang."],
+[7,"Kegunaan requestId:","Idempotensi saat retry atau klik berulang",["Mengenkripsi data","Mempercepat query","Menggantikan transaksi"],"ID sama → hasil lama dikembalikan."]
+];
+/* drill: judul, deskripsi, opsi, [teks, idx, alasan] */
+const DR=[
+{t:"Skenario kualitas A: label tiap fragmen",d:"“Mahasiswa mengirim permintaan peminjaman ke API pemesanan saat lonjakan awal semester; sistem memproses dan menyimpan; latensi p95 ≤ 2 detik.”",o:["Sumber stimulus","Stimulus","Lingkungan","Artefak","Respons","Ukuran respons"],i:[["Mahasiswa",0,"Pemicu kejadian."],["mengirim permintaan peminjaman",1,"Kejadian yang terjadi."],["saat lonjakan awal semester",2,"Kondisi saat kejadian."],["API pemesanan",3,"Bagian sistem yang terkena."],["memproses dan menyimpan permintaan",4,"Tindakan sistem."],["latensi p95 ≤ 2 detik",5,"Angka yang bisa diukur."]]},
+{t:"Skenario kualitas B (keamanan)",d:"“Peretas mencoba membobol modul otorisasi saat operasi normal; sistem menolak dan mencatat; 100% percobaan diblokir dan tercatat ≤ 1 detik.”",o:["Sumber stimulus","Stimulus","Lingkungan","Artefak","Respons","Ukuran respons"],i:[["Peretas",0,"Siapa pemicunya."],["mencoba membobol",1,"Kejadiannya."],["operasi normal",2,"Kondisi sistem."],["modul otorisasi",3,"Yang diserang."],["menolak dan mencatat",4,"Reaksi sistem."],["100% diblokir, tercatat ≤ 1 detik",5,"Target terukur."]]},
+{t:"Batasan, asumsi, atau preferensi?",d:"Klasifikasikan tiap pernyataan.",o:["Batasan wajib","Asumsi","Preferensi"],i:[["Sistem wajib memakai layanan identitas SSO kampus.",0,"Mutlak."],["Lonjakan awal semester maksimum 200 pengguna virtual.",1,"Perlu validasi dengan data."],["Tim lebih familiar memakai Java.",2,"Masih bisa didiskusikan."],["Anggaran infrastruktur tidak boleh melebihi batas yang ditetapkan kampus.",0,"Kendala bisnis."],["Mayoritas pengguna diperkirakan memakai ponsel.",1,"Perkiraan lapangan."]]},
+{t:"Jodohkan pertanyaan arsitektur dengan bukti",d:"Pilih bukti validasi yang paling sesuai.",o:["Uji tugas prototipe","Uji konkurensi (spike)","Uji beban (load test)","Simulasi perubahan & review dampak modul"],i:[["Apakah petugas memahami alur sistem?",0,"Pemahaman pengguna."],["Apakah dua request bersamaan merusak data?",1,"Bentrokan data."],["Apakah p95 ≤ 3 detik tercapai?",2,"Target kinerja."],["Apakah aturan bisnis mudah diubah?",3,"Modifiability."]]},
+{t:"Diagnosis rancangan",d:"Pilih prinsip yang paling tepat dilanggar.",o:["SRP / kohesi rendah","OCP","LSP","ISP","DIP","Coupling tinggi"],i:[["Modul Reservasi membaca langsung tabel database modul Jadwal.",5,"Menembus batas modul."],["Satu kelas menyetujui pinjaman, menghitung gaji, dan membuat PDF.",0,"Tanggung jawab bercampur."],["Menambah aturan fakultas baru harus mengedit if-else di kode lama.",1,"Seharusnya diperluas lewat interface."],["Subclass menolak input yang diterima oleh induknya.",2,"Memperkuat prasyarat."],["Layar laporan read-only dipaksa bergantung pada interface yang punya operasi write.",3,"Interface terlalu gemuk."],["Domain layer meng-import kelas koneksi MySQL.",4,"Detail teknis dibalik arah."]]},
+{t:"Peran komponen pada sequence diagram",d:"Siapa yang bertanggung jawab?",o:["Controller","Service","Entity","Repository"],i:[["Menerima request HTTP dan mengembalikan respons.",0,"Gerbang protokol."],["Mengoordinasikan alur: panggil entity, lalu simpan.",1,"Orkestrasi."],["Memvalidasi perubahan status Loan miliknya sendiri.",2,"Aturan status ada di entity."],["Menyimpan dan membaca data dari DBMS.",3,"Akses data murni."]]}
+];
+const ESAI=[
+["Jelaskan perbedaan kebutuhan, keputusan desain, dan implementasi beserta contohnya.","Kebutuhan = apa yang diinginkan (“pasien dapat memilih jadwal dokter yang tersedia”). Keputusan desain = bagaimana struktur dan interaksinya (“komponen Reservasi meminta validasi pada komponen Jadwal”). Implementasi = realisasi kode (“database constraint untuk mengunci slot transaksi”). Urutannya dari abstrak ke konkret, dan tiap keputusan harus bisa ditelusuri ke kebutuhan."],
+["Perbaiki kalimat “Sistem peminjaman alat lab harus cepat dan aman” menjadi skenario kualitas lengkap.","Salah karena “cepat” dan “aman” tidak punya ukuran, profil beban, dan batas latensi. Contoh: Sumber: mahasiswa. Stimulus: mengirim permintaan peminjaman. Lingkungan: lonjakan awal semester (200 pengguna virtual). Artefak: API pemesanan. Respons: permintaan diproses dan disimpan. Ukuran: latensi p95 ≤ 2 detik. Buat skenario terpisah untuk keamanan (misal 100% percobaan akses tak sah ditolak dan tercatat)."],
+["Bandingkan modular monolith dan arsitektur berbasis layanan. Kapan masing-masing dipilih?","Monolith modular: satu deployment, modul terpisah logis; transaksi lokal mudah, cocok untuk tim kecil dengan tenggat singkat; kekurangan: perubahan kecil memaksa deploy ulang semuanya. Services: deploy terpisah via jaringan; skala dan update mandiri; kekurangan: latensi, kegagalan parsial, distributed transaction. Pilih berdasarkan penggerak desain (ukuran tim, kebutuhan skala, konsistensi), bukan tren."],
+["Susun ADR untuk keputusan “persetujuan wajib daring”.","Konteks: koneksi sering terputus, tetapi data tidak boleh ganda. Keputusan: persetujuan wajib dilakukan daring. Alternatif ditolak: persetujuan offline lalu sinkronisasi (risiko konflik/duplikasi). Konsekuensi: konsistensi terjaga, tetapi persetujuan tertunda saat jaringan mati."],
+["Mengapa notifikasi memakai outbox + worker dan berada di luar transaksi utama?","Notifikasi ke sistem eksternal sering gagal. Reservasi dianggap sukses setelah commit ke database lokal; notifikasi dimasukkan ke outbox dan diproses worker secara asinkron dengan retry. Bila SMS/email mati, reservasi tetap sah dan tidak ikut rollback."],
+["Dua petugas menyetujui alat yang sama bersamaan. Mengapa pengecekan if tidak cukup dan apa solusinya?","Keduanya membaca status “Tersedia” sebelum salah satu menulis, sehingga keduanya lolos (race condition). Solusi: transaksi dengan locking pesimistik/optimistik, constraint database, atau atomic update. Request yang kalah mendapat error konflik dan invariant (pinjaman aktif per alat ≤ 1) tetap terjaga. Tambahkan idempotensi dengan requestId untuk retry."]
+];
+const PLAN=[["Baca ringkasan Bab 1–3 (25 menit), lalu kartu hafalan Bab 1–3","Prinsip dasar, enam unsur, dan perbandingan arsitektur adalah bahan “pasti keluar”."],["Kuis Bab 1–3 (15 menit), pelajari penjelasan setiap jawaban salah","Mengerjakan soal lebih efektif daripada membaca ulang."],["Istirahat 10 menit, lalu ringkasan & kartu Bab 4–5 (25 menit)","Istirahat membantu otak mengonsolidasi ingatan."],["Kuis Bab 4–5 dan latihan jodohkan eksperimen–bukti (20 menit)","Tabel masalah → bukti adalah bahan favorit soal menjodohkan."],["Ringkasan & kartu Bab 6–7 (25 menit), lalu latihan diagnosis rancangan","Kontrak, SOLID, dan konkurensi paling sering berbentuk studi kasus."],["Kuis campuran Semua Bab (20 menit), lalu ulangi hanya soal yang salah","Pengulangan pada kelemahan paling cepat menaikkan nilai."],["Latihan esai (20 menit): tulis jawaban sendiri dulu, baru lihat kunci","Menulis dengan kata sendiri menguji pemahaman, bukan hafalan."],["Baca Contekan sekali lagi lalu tidur cukup","Tidur memperkuat memori; begadang justru menurunkan performa."]];
+
+/* ===== NAV ===== */
+const TABS=[["home","Beranda"],["ringkasan","Ringkasan"],["kartu","Kartu hafalan"],["kuis","Kuis"],["latihan","Latihan kasus"],["esai","Latihan esai"],["contekan","Contekan"]];
+$("#nav").innerHTML=TABS.map(t=>`<button data-t="${t[0]}">${t[1]}</button>`).join("");
+function go(t){document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===t));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.t===t));if(t==="home")home();scrollTo(0,0)}
+$("#nav").onclick=e=>{if(e.target.dataset.t)go(e.target.dataset.t)};
+
+/* ===== BERANDA ===== */
+function home(){
+ const now=new Date(),ex=new Date(2026,10,10,0,0,0),ms=ex-now,h=Math.ceil(ms/36e5);
+ const cd=ms>0?`<div class="big">${h<=24?h+" jam":Math.ceil(h/24)+" hari"}</div><div class="mute">menuju UTS PPL, Selasa 10 November 2026</div>`:`<div class="big">UTS hari ini</div><div class="mute">Selasa 10 November 2026. Semangat!</div>`;
+ const rd=Object.keys(S.read).length,kn=Object.keys(S.known).length;
+ const pct=(a,b)=>Math.round(a/b*100);
+ $("#home").innerHTML=`<div class="grid"><div class="card">${cd}</div>
+ <div class="card"><h3>Progres belajar</h3>
+ <p class="mute">Ringkasan dibaca: ${rd}/7</p><div class="bar2"><i style="width:${pct(rd,7)}%"></i></div>
+ <p class="mute" style="margin-top:10px">Kartu hafal: ${kn}/${FC.length}</p><div class="bar2"><i style="width:${pct(kn,FC.length)}%"></i></div>
+ <p class="mute" style="margin-top:10px">Skor kuis terbaik: ${S.best}%</p><div class="bar2"><i style="width:${S.best}%"></i></div>
+ <p class="mute" style="margin-top:10px">Soal salah tersimpan: ${S.wrong.length}</p></div></div>
+ <div class="card"><h3>Mulai dari mana?</h3><div class="row"><button class="btn" data-go="ringkasan">Baca ringkasan</button><button class="btn g" data-go="kartu">Kartu hafalan</button><button class="btn g" data-go="kuis">Kuis</button><button class="btn g" data-go="latihan">Latihan kasus</button><button class="btn g" data-go="esai">Latihan esai</button></div></div>
+ <h2>Rencana belajar malam ini (±3 jam)</h2><p class="mute">Centang tiap langkah setelah selesai. Urutannya mengikuti prediksi soal di file Excel kamu.</p>
+ <div class="card">${PLAN.map((p,i)=>`<label class="chk"><input type="checkbox" data-p="${i}" ${S.done[i]?"checked":""}><span><b>${p[0]}</b><br><span class="mute">${p[1]}</span></span></label>`).join("")}</div>
+ <h2>Fitur belajar tambahan (dan alasannya)</h2><div class="grid">
+ <div class="card"><h3>Kartu hafalan</h3><p class="mute">Memakai <b>active recall</b>: mencoba mengingat sebelum melihat jawaban jauh lebih kuat daripada membaca ulang. Kartu yang ditandai “belum hafal” muncul lagi lebih dulu.</p></div>
+ <div class="card"><h3>Kuis acak + penjelasan</h3><p class="mute">Opsi diacak supaya kamu tidak menghafal posisi jawaban. Soal yang salah disimpan untuk diulang (<b>spaced repetition</b> sederhana).</p></div>
+ <div class="card"><h3>Latihan kasus</h3><p class="mute">Meniru tipe soal prediksi: melabeli enam unsur skenario, klasifikasi batasan/asumsi/preferensi, menjodohkan bukti, dan mendiagnosis kode buruk.</p></div>
+ <div class="card"><h3>Latihan esai + kunci</h3><p class="mute">Tulis jawaban dengan kata sendiri di kertas, lalu bandingkan dengan kunci. Metode <b>Feynman</b>: jika bisa menjelaskan sederhana, berarti paham.</p></div>
+ <div class="card"><h3>Contekan (bisa dicetak)</h3><p class="mute">Tabel perbandingan untuk review cepat sebelum tidur atau sebelum masuk ruang ujian.</p></div></div>
+ <h2>Strategi saat ujian</h2><div class="card"><ul>
+ <li><b>Soal kasus:</b> tulis dulu kata kunci masalahnya (campur tanggung jawab? baca tabel modul lain? dua request bersamaan?), baru sebut prinsipnya.</li>
+ <li><b>Soal skenario kualitas:</b> pastikan keenam unsur terisi dan ada angka pada ukuran respons.</li>
+ <li><b>Soal pilihan ganda:</b> coret opsi ekstrem (“selalu”, “tidak pernah”), perhatikan arah panah dan istilah jebakan.</li>
+ <li><b>Soal esai:</b> pakai pola definisi → contoh → konsekuensi/trade-off.</li></ul></div>
+ <button class="btn g noprint" id="rs">Reset progres</button>`;
+ $("#home").onclick=e=>{const g=e.target.dataset.go;if(g)go(g)};
+ $("#home").onchange=e=>{if(e.target.dataset.p!==undefined){S.done[e.target.dataset.p]=e.target.checked;save()}};
+ $("#rs").onclick=()=>{if(confirm("Hapus semua progres?")){S={read:{},known:{},best:0,wrong:[],done:{}};save();home()}};
+}
+
+/* ===== RINGKASAN ===== */
+$("#ringkasan").innerHTML=`<h2>Ringkasan per bab</h2><p class="mute">Buka tiap bab, baca, lalu centang “sudah dibaca”.</p>`+RING.map(r=>`<details><summary><span class="pill">Bab ${r[0]}</span>${r[1]}</summary><div><ul>${r[2].map(x=>`<li>${x}</li>`).join("")}</ul><div class="trap"><b>Jebakan:</b> ${r[3]}</div><label class="chk"><input type="checkbox" data-r="${r[0]}"><span>Sudah dibaca</span></label></div></details>`).join("");
+document.querySelectorAll("[data-r]").forEach(c=>{c.checked=!!S.read[c.dataset.r];c.onchange=()=>{c.checked?S.read[c.dataset.r]=1:delete S.read[c.dataset.r];save()}});
+
+/* ===== KARTU ===== */
+let fc={deck:[],i:0,back:false};
+$("#kartu").innerHTML=`<h2>Kartu hafalan</h2><p class="mute">Coba jawab dalam hati dulu, lalu klik kartu (atau tekan Spasi) untuk membalik.</p>
+<div class="row"><select id="fb" aria-label="Pilih bab">${babOpts()}</select><label class="row mute"><input type="checkbox" id="fu"> Hanya yang belum hafal</label><button class="btn g" id="fs">Acak</button></div>
+<div id="fcx"></div>`;
+function fcBuild(shuffle){const b=+$("#fb").value,u=$("#fu").checked;let d=FC.map((c,i)=>({c,i})).filter(x=>(!b||x.c[0]===b)&&(!u||!S.known[x.i]));if(shuffle)d=shuf(d);fc.deck=d;fc.i=0;fc.back=false;fcDraw()}
+function fcDraw(){const x=$("#fcx");if(!fc.deck.length){x.innerHTML=`<div class="card">Tidak ada kartu pada filter ini. Ubah bab atau matikan “hanya yang belum hafal”.</div>`;return}
+ const k=fc.deck[fc.i];x.innerHTML=`<p class="mute">Kartu ${fc.i+1} dari ${fc.deck.length} · Bab ${k.c[0]}</p><div class="fc ${fc.back?"back":""}"><div id="fcard" role="button" tabindex="0" aria-label="Balik kartu">${fc.back?k.c[2]:"<b>"+k.c[1]+"</b>"}</div></div>
+ <div class="row"><button class="btn g" id="pv">Sebelumnya</button><button class="btn bad" id="no">Belum hafal</button><button class="btn ok" id="yes">Hafal</button><button class="btn g" id="nx">Berikutnya</button></div>`;
+ $("#fcard").onclick=()=>{fc.back=!fc.back;fcDraw()};
+ const mv=d=>{fc.i=(fc.i+d+fc.deck.length)%fc.deck.length;fc.back=false;fcDraw()};
+ $("#pv").onclick=()=>mv(-1);$("#nx").onclick=()=>mv(1);
+ $("#yes").onclick=()=>{S.known[k.i]=1;save();mv(1)};$("#no").onclick=()=>{delete S.known[k.i];save();mv(1)};}
+$("#fb").onchange=()=>fcBuild();$("#fu").onchange=()=>fcBuild();$("#fs").onclick=()=>fcBuild(true);
+document.addEventListener("keydown",e=>{if($("#kartu").classList.contains("on")&&e.code==="Space"&&fc.deck.length&&!/SELECT|INPUT/.test(e.target.tagName)){e.preventDefault();fc.back=!fc.back;fcDraw()}});
+fcBuild();
+
+/* ===== KUIS ===== */
+let qz={};
+$("#kuis").innerHTML=`<h2>Kuis pilihan ganda</h2><p class="mute">${Q.length} soal. Opsi diacak tiap kali.</p><div class="row"><select id="qb" aria-label="Pilih bab"></select><button class="btn" id="qs">Mulai kuis</button></div><div id="qx"></div>`;
+function qOpts(){$("#qb").innerHTML=babOpts(`<option value="w">Soal yang pernah salah (${S.wrong.length})</option>`)}
+qOpts();
+$("#qs").onclick=()=>{const v=$("#qb").value;let p=Q.map((q,i)=>({q,i}));if(v==="w")p=p.filter(x=>S.wrong.includes(x.i));else if(+v)p=p.filter(x=>x.q[0]===+v);
+ if(!p.length){$("#qx").innerHTML=`<div class="card">Belum ada soal pada pilihan ini.</div>`;return}
+ qz={p:shuf(p),n:0,s:0,w:[]};qShow()};
+function qShow(){const x=$("#qx"),it=qz.p[qz.n];
+ if(!it){const pc=Math.round(qz.s/qz.p.length*100);if($("#qb").value==="0"&&pc>S.best)S.best=pc;save();qOpts();
+  x.innerHTML=`<div class="card"><div class="big">${qz.s}/${qz.p.length}</div><p>${pc>=80?"Mantap, kamu siap!":pc>=60?"Cukup baik. Ulangi soal yang salah.":"Masih ada celah. Baca ringkasan lalu ulangi."}</p>${qz.w.length?`<h3>Perlu diulang</h3><ul>${qz.w.map(i=>`<li>${Q[i][1]}<br><span class="mute">Jawaban: ${Q[i][2]}</span></li>`).join("")}</ul>`:""}<button class="btn" id="qr">Kuis lagi</button></div>`;$("#qr").onclick=()=>$("#qs").click();return}
+ const q=it.q,o=shuf([q[2],...q[3]]);
+ x.innerHTML=`<div class="card"><p class="mute">Soal ${qz.n+1}/${qz.p.length} · Bab ${q[0]} · Benar ${qz.s}</p><h3>${q[1]}</h3><div id="oo">${o.map(t=>`<button class="opt">${t}</button>`).join("")}</div><div id="qf"></div></div>`;
+ $("#oo").onclick=e=>{if(!e.target.classList.contains("opt"))return;const ok=e.target.textContent===q[2];
+  document.querySelectorAll("#oo .opt").forEach(b=>{b.disabled=true;if(b.textContent===q[2])b.classList.add("ok")});
+  if(ok)qz.s++;else{e.target.classList.add("no");qz.w.push(it.i);if(!S.wrong.includes(it.i))S.wrong.push(it.i)}
+  if(ok&&S.wrong.includes(it.i)&&$("#qb").value==="w")S.wrong=S.wrong.filter(z=>z!==it.i);save();
+  $("#qf").innerHTML=`<div class="fb ${ok?"ok":"no"}"><b>${ok?"Benar.":"Kurang tepat."}</b> ${q[4]}</div><button class="btn" id="qn">${qz.n+1<qz.p.length?"Soal berikutnya":"Lihat hasil"}</button>`;
+  $("#qn").onclick=()=>{qz.n++;qShow()}}}
+
+/* ===== LATIHAN ===== */
+$("#latihan").innerHTML=`<h2>Latihan kasus</h2><p class="mute">Pilih jawaban pada tiap baris, lalu tekan “Periksa”.</p>`+DR.map((d,k)=>`<div class="card" data-k="${k}"><h3>${d.t}</h3><p class="mute">${d.d}</p>${d.i.map((it,j)=>`<div class="dr" data-j="${j}"><div class="t">${it[0]}</div><select><option value="">Pilih…</option>${d.o.map((o,n)=>`<option value="${n}">${o}</option>`).join("")}</select><div class="r hid"></div></div>`).join("")}<div class="row" style="margin-top:12px"><button class="btn" data-c="${k}">Periksa</button><span class="mute" id="sc${k}"></span></div></div>`).join("");
+$("#latihan").onclick=e=>{const k=e.target.dataset.c;if(k===undefined)return;const d=DR[k];let s=0;
+ document.querySelectorAll(`[data-k="${k}"] .dr`).forEach(r=>{const it=d.i[+r.dataset.j],v=r.querySelector("select").value,ok=v!==""&&+v===it[1],rs=r.querySelector(".r");
+  r.classList.toggle("ok",ok);r.classList.toggle("no",!ok);rs.classList.remove("hid");rs.innerHTML=ok?`Benar. ${it[2]}`:`Jawaban: <b>${d.o[it[1]]}</b>. ${it[2]}`;if(ok)s++});
+ $("#sc"+k).textContent=`Skor ${s}/${d.i.length}`}
+
+/* ===== ESAI ===== */
+$("#esai").innerHTML=`<h2>Latihan esai</h2><p class="mute">Tulis jawabanmu sendiri dulu di kertas atau kotak di bawah, baru buka kunci. Kunci hanya model jawaban, kata-katamu boleh berbeda selama intinya sama.</p>`+ESAI.map((e,i)=>`<div class="card"><h3>${i+1}. ${e[0]}</h3><textarea rows="4" style="width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit" placeholder="Tulis jawabanmu di sini (tidak disimpan)"></textarea><div class="row" style="margin-top:8px"><button class="btn g" data-e="${i}">Lihat kunci</button></div><div class="fb hid" style="background:var(--okS)" id="ek${i}">${e[1]}</div></div>`).join("");
+$("#esai").onclick=e=>{const i=e.target.dataset.e;if(i!==undefined)$("#ek"+i).classList.toggle("hid")};
+
+/* ===== CONTEKAN ===== */
+$("#contekan").innerHTML=`<div class="row" style="justify-content:space-between"><h2>Contekan</h2><button class="btn g noprint" onclick="print()">Cetak</button></div>
+<div class="card sc"><h3>Modular monolith vs services</h3><table><tr><th></th><th>Modular monolith</th><th>Services</th></tr><tr><td>Deployment</td><td>Satu unit</td><td>Terpisah per layanan</td></tr><tr><td>Komunikasi</td><td>Pemanggilan lokal</td><td>Jaringan (API/RPC)</td></tr><tr><td>Kelebihan</td><td>Transaksi lokal, cocok tim kecil</td><td>Skala & update mandiri</td></tr><tr><td>Kekurangan</td><td>Perubahan kecil = deploy ulang semua</td><td>Latensi, kegagalan parsial, distributed transaction</td></tr></table></div>
+<div class="card sc"><h3>SOLID</h3><table><tr><th>Prinsip</th><th>Intinya</th><th>Contoh di materi</th></tr><tr><td>SRP</td><td>Satu alasan berubah</td><td>Pisahkan pengumpulan tugas dari pembuat laporan</td></tr><tr><td>OCP</td><td>Terbuka diperluas, tertutup diubah</td><td>ApprovalPolicy per fakultas</td></tr><tr><td>LSP</td><td>Pengganti tak merusak kontrak induk</td><td>Subclass tak memperkuat prasyarat</td></tr><tr><td>ISP</td><td>Interface kecil & spesifik</td><td>Pisahkan read-only laporan dari write persetujuan</td></tr><tr><td>DIP</td><td>Bergantung pada abstraksi</td><td>Domain tak bergantung ke Infrastruktur</td></tr></table></div>
+<div class="card sc"><h3>Taktik dan konsekuensinya</h3><table><tr><th>Taktik</th><th>Manfaat</th><th>Biaya</th></tr><tr><td>Cache</td><td>Kinerja</td><td>Invalidasi rumit, data usang</td></tr><tr><td>Replika</td><td>Ketersediaan</td><td>Biaya operasional naik</td></tr><tr><td>Antarmuka stabil</td><td>Modifiability</td><td>Perlu disiplin kontrak</td></tr><tr><td>Outbox + worker</td><td>Notifikasi tak menggagalkan reservasi</td><td>Pengiriman asinkron/tertunda</td></tr></table></div>
+<div class="card sc"><h3>Istilah yang sering tertukar</h3><table><tr><th>Pasangan</th><th>Bedanya</th></tr><tr><td>Top-down vs bottom-up</td><td>Dekomposisi dari tujuan vs komposisi dari aset yang ada</td></tr><tr><td>Iteratif vs inkremental</td><td>Memperbaiki vs menambah cakupan</td></tr><tr><td>Provided vs required interface</td><td>Ditawarkan vs dibutuhkan</td></tr><tr><td>Prasyarat vs pascasyarat vs invariant</td><td>Syarat sebelum, jaminan sesudah, aturan yang selalu benar</td></tr><tr><td>Batasan vs asumsi vs preferensi</td><td>Mutlak, perlu divalidasi, bisa didiskusikan</td></tr></table></div>
+<div class="card"><h3>Pola jawaban cepat</h3><ul><li>Banyak tanggung jawab dalam satu unit → <b>SoC / kohesi rendah / SRP</b></li><li>Baca tabel modul lain → <b>coupling tinggi</b></li><li>Dua request bersamaan → <b>locking/constraint/atomic update</b>, bukan if biasa</li><li>Retry → <b>idempotensi (requestId)</b></li><li>Notifikasi eksternal → <b>outbox + worker, di luar transaksi</b></li><li>Kalimat “cepat/aman” → <b>skenario 6 unsur + angka</b></li></ul></div>`;
+go("home");
+</script>
+</body>
+</html>
